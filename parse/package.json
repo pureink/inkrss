@@ -1,0 +1,17 @@
+{
+    "name": "inkrss-parse",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "jsdom": "^16.6.0",
+        "rss-parser": "^3.12.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "pureink <goodink@tutanota.com>",
+    "license": "ISC"
+}

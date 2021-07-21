@@ -1,0 +1,19 @@
+{
+    "name": "inkrss",
+    "version": "1.0.0",
+    "description": "Hardworking workers helps you with Syndication",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier --write '**/*.{js,css,json,md}'"
+    },
+    "author": "pureink <pureink@tutanota.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "prettier": "^1.17.0"
+    },
+    "dependencies": {
+        "@cloudflare/kv-asset-handler": "^0.1.3",
+        "itty-router": "^2.1.9",
+        "telegraf": "^3.38.0"
+    }
+}

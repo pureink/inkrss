@@ -1,0 +1,16 @@
+name = "inkrss"
+type = "webpack"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+webpack_config = "webpack.config.js"
+target_type = "webpack"
+kv_namespaces = [
+   { binding = "KV"}
+]
+[triggers]
+crons = ["*/1 * * * *"]
+[site]
+bucket = "./public"
+entry-point = "./"
