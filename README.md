@@ -173,6 +173,13 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
 
       默认部署后的 url 很长，使用此小部件可以一键跳转，并展示基本信息。
 
+
+- 功能丰富的telegram bot（还没有做完）
+
+    cloudflare workers开发机器人只能使用过时的框架并且开发体验较差。目前仅支持四个命令/list /sub /unsub /unsuball
+
+    具有完整功能以及行内键盘支持的机器人将部署在其他无服务器平台
+
 ## 使用建议
 
 -   由于对 cpu 时间的限制，cloudflare worker 会分批进行监测，如果订阅数过多，或者希望多渠道接收消息，只需要在 wrangler.toml 中修改名称重新部署即可部署多个 worker。
