@@ -84,7 +84,7 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
 
 <p align="center"><a href="https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fpureink%2Finkrss%2Ftree%2Fmain%2Fparse"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a></p>
 
-5. 需要配置 SECRET_PATH,网页将部署在https://inkrss.example.workers.dev/secret_path，请仅使用大小写字母和数字进行编写。
+5. 需要配置 SECRET_PATH,网页将部署在https://inkrss.example.workers.dev/secret_path 请仅使用大小写字母和数字进行编写。
 
 ## 部署
 
