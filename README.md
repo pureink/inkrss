@@ -68,7 +68,7 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
 
 1. 对于所有项目都可以使用网页进行订阅
 
-<img src="https://user-images.githubusercontent.com/44235276/126451080-1c16cc60-9f7e-4423-b67a-ce8b26134a90.gif" alt="screen" style="zoom: 50%;" />
+    <img src="https://user-images.githubusercontent.com/44235276/126451080-1c16cc60-9f7e-4423-b67a-ce8b26134a90.gif" alt="screen" style="zoom: 50%;" />
 
 2. 使用 telegram 不仅可以使用网页，还包含借助 telegraph 提供的即时预览功能（instant view）以及一个提供增删查功能的机器人。部署后访问
 
