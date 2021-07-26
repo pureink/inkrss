@@ -138,6 +138,7 @@ router.post(`/${secret_path}/active`, async req => {
         )
     }
     sub[index].active = state
+    sub[index].lastUpdateTime = new Date()
     sub[index].errorTimes = 0
     await KV.put('sub', JSON.stringify(sub))
     return new Response(
