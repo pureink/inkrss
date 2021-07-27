@@ -38,6 +38,8 @@ INK RSS 提供及时且多样的 rss 通知服务，借助现有的接口你可�
 
 已实现的通知方式：telegram（支持instant view），bark，微信
 
+⚠️注意：如果部署的早期代码出现异常，请在网页删除worker和KV重新部署最新版本
+
 ## 特点
 
 🎊 **免费** - 整个应用部署在 cloudflare workers（包括前后端，机器人）
