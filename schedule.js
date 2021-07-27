@@ -10,7 +10,6 @@ export async function handleScheduled(event) {
     for (let i = 0; i < sub.length; i++) {
         let kvupdate = false
         if (sub[i].active === true) {
-            console.log(sub[i].title)
             try {
                 const resp = await fetch(sub[i].url)
                 const text = await resp.text()
@@ -32,7 +31,7 @@ export async function handleScheduled(event) {
                         }
                     )
                     const data = await res.json()
-                    for (let j = 0; j < data.items.length; j++) {
+                    for (let j = 0; j < data.items.length||10; j++) {
                         if (
                             new Date(data.items[j].pubDate) >
                             new Date(sub[i].lastUpdateTime)
