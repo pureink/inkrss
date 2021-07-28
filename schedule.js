@@ -16,6 +16,7 @@ export async function handleScheduled(event) {
                 if (text.slice(0, 5) != '<?xml' && text.slice(0, 5) != '<rss ')
                     throw 'wrong xml'
                 const id = identify(text)
+                console.log(id)
                 if (id != sub[i].id) {
                     const res = await fetch(
                         `${config.PARSE_URL}/api/xml2json`,
@@ -31,7 +32,7 @@ export async function handleScheduled(event) {
                         }
                     )
                     const data = await res.json()
-                    for (let j = 0; j < data.items.length||10; j++) {
+                    for (let j = 0; j < data.items.length && 10; j++) {
                         if (
                             new Date(data.items[j].pubDate) >
                             new Date(sub[i].lastUpdateTime)
@@ -43,15 +44,18 @@ export async function handleScheduled(event) {
                     sub[i].lastUpdateTime = data.items[0].pubDate
                     sub[i].id = id
                     kvupdate = true
-                    //有一次更新就进行提交
                 }
             } catch (err) {
                 sub[i].errorTimes += 1
-                if (sub[i].errorTimes >= config.maxErrorTimes) {
+                if (sub[i].errorTimes >= config.maxErrorCount) {
+                    console.log("error over max start notify")
                     sub[i].active = false
                     await replyWhenError(sub[i])
+                    await KV.put('sub', JSON.stringify(sub))
+                    break
+                } else {
+                    await KV.put('sub', JSON.stringify(sub))
                 }
-                await KV.put('sub', JSON.stringify(sub))
             }
             if (kvupdate === true) {
                 await KV.put('sub', JSON.stringify(sub))

@@ -1,8 +1,8 @@
 function removeCdata(str) {
     if (str.substring(0, 12) === 'type="html">') str = str.substring(12)
     if (str.substring(0, 9) === '<![CDATA[')
-        return str.substring(9, str.length - 3)
-    return str
+        return str.substring(9, str.length - 3).replace(/(^\s*)|(\s*$)/g,"")
+    return str.replace(/(^\s*)|(\s*$)/g,"")
 }
 export function identify(fullxml) {
     const start = '<title'

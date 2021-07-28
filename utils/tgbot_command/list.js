@@ -6,8 +6,8 @@ export async function botList(ctx) {
     } else {
         let msg = ''
         for (let i = 0; i < sub.length; i++) {
-            msg = msg + sub[i].title + ' ' + sub[i].url + '\n'
+            msg += `[${sub[i].title}](${sub[i].url})\n`
         }
-        await ctx.reply(msg)
+        await ctx.reply(msg,{parse_mode: 'Markdown'})
     }
 }
