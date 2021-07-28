@@ -1,10 +1,7 @@
 import { identify } from '../identify'
-import config from '../../config'
+import { config } from '../../config'
 export async function botSub(ctx) {
-    const subdata = await KV.get('sub')
-    if (!subdata) {
-        await KV.put('sub', '[]')
-    }
+    const subraw = (await KV.get('sub')) || '[]'
     let entities = ctx.update.message.entities
     let msg = ''
     for (let i = 0; i < entities.length; i++) {
@@ -16,7 +13,6 @@ export async function botSub(ctx) {
             break
         }
     }
-    const subraw = (await KV.get('sub')) || '[]'
     let sub = JSON.parse(subraw)
     if (msg.length == 0) {
         await ctx.reply('请输入格式正确的订阅源')
