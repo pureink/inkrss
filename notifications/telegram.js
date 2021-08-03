@@ -2,7 +2,7 @@ import { config } from "../config";
 const Telegram = require("telegraf/telegram");
 import { telegraph } from "../utils/telegraph";
 import { md } from "../utils/markdown";
-let sendto = config.TG_USERID;
+let sendto = config.TG_SENDID;
 export async function reply(feed, item) {
   const telegram = new Telegram(config.TG_TOKEN);
   await telegram.sendMessage(
