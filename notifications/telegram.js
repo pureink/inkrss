@@ -10,10 +10,10 @@ export async function reply(feed, item) {
     `<b>${html(feed.title)}</b>\n${html(item.title)}\n${
       feed.telegraph
         ? item.content
-          ? `<a href="${await telegraph(item)}">telegraph</a>`
+          ? `<a href="${await telegraph(item)}">Telegraph</a>`
           : ""
         : ""
-    }  ${item.link ? `<a href="${item.link}">origin</a>` : ""}`,
+    }  ${item.link ? `<a href="${item.link}">Link</a>` : ""}`,
     { parse_mode: "HTML" }
   );
 }
