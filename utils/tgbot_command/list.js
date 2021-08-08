@@ -1,4 +1,4 @@
-import { md } from "../markdown";
+import { html} from "../html";
 export async function botList(ctx) {
   let subraw = (await KV.get("sub")) || "[]";
   const sub = JSON.parse(subraw);
@@ -7,8 +7,8 @@ export async function botList(ctx) {
   } else {
     let msg = "";
     for (let i = 0; i < sub.length; i++) {
-      msg += `[${md(sub[i].title)}](${sub[i].url})\n`;
+      msg += `[${html(sub[i].title)}](${sub[i].url})\n`;
     }
-    await ctx.reply(msg, { parse_mode: "Markdown" });
+    await ctx.reply(msg, { parse_mode: "HTML" });
   }
 }
