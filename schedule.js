@@ -13,8 +13,6 @@ export async function handleScheduled(event) {
       try {
         const resp = await fetch(sub[i].url);
         const text = await resp.text();
-        if (text.slice(0, 5) != "<?xml" && text.slice(0, 5) != "<rss ")
-          throw "wrong xml";
         const id = identify(text);
         console.log(id);
         if (id != sub[i].id) {
