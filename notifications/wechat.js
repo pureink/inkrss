@@ -1,7 +1,7 @@
 import { config } from "../config";
 export async function reply(feed, item) {
   await fetch(
-    `${config.WECHAT_URL}&msg_type=text&msg=${feed.title}\n${item.title}\n${item.link}`
+    `${config.WECHAT_URL}&msg_type=text&msg=${encodeURIComponent(feed.title)}\n${encodeURIComponent(item.title)}\n${encodeURIComponent(item.link)}`
   );
 }
 export async function replyWhenError(feed) {
