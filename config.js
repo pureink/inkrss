@@ -1,8 +1,10 @@
 //choose telegram / wechat / bark
 
-export const mode = 'bark'
+export const mode = NOTIFIER || "bark"
 
 export const config = {
     maxErrorCount: 15,
-    ...require(`./config/${mode}/config.json`),
+    PARSE_URL,
+    SECRET_PATH,
+    ...require(`./config/${mode}`).default,
 }

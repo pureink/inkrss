@@ -133,7 +133,9 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
 
 -   开始部署
 
-1.  克隆本项目并解压，在文件夹目录打开命令行（windows 用户可直接在资源管理器输入 cmd 并回车）
+1.  克隆本项目并解压，复制 wrangler.example.toml 内容建立新配置文件 wrangler.toml
+    
+    在文件夹目录打开命令行（windows 用户可直接在资源管理器输入 cmd 并回车）
 
     ```
     wrangler kv:namespace create "KV"
@@ -153,7 +155,13 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
     -   bark（部署最便捷，受限于平台）
     -   wechat（部署较麻烦，仅支持纯文本，适用性广）
 
-    首先在 config.js 中修改 mode 为你想要的通知方式，然后在 config 文件夹的指定文件夹中根据 readme 配置变量。
+    定义 wrangler.toml 中环境变量 `[vars]`，其中必须定义的有：
+    
+    - `NOTIFIER` 为想要的通知方式
+    - `SECRET_PATH` 为 UI 页面路径
+    - `PARSE_URL` 为 Feed Parser
+
+    然后根据所选通知方式，根据 config 文件夹的指定文件夹中 readme 配置其他相应变量，如`BARK_URL`。
 
 3.  发布
 
@@ -164,6 +172,42 @@ telegram 有不少开源的机器人，使用公益公开的机器人，隐私�
     ![publish](https://user-images.githubusercontent.com/44235276/126451441-6af7df11-ae99-4bae-bad5-e1db46de1ef8.png)
 
     wrangler 会自动安装相应的依赖，进行打包和上传，并返回一个部署好的 url,之后就可以立即在https://ink-rss.xxx.workers.dev/secret_path 访问到前端进行订阅.但由于cloudflare的一些延迟，定时计划可能在半小时后才会开始运行
+
+4. 多环境（Workers）
+
+   可以在 wrangler.toml 中定义多个环境，并通过命令行发布，如若去掉 wrangler.example.toml 中的注释，并如下配置：
+   ```
+   # Environments / Multiple Workers
+   [env.production]
+   name = "inkrss-prod"
+
+   kv_namespaces = [
+      { binding = "KV", id = "" }
+   ]
+
+   [env.production.vars]
+   NOTIFIER = "telegram" # bark, telegram or wechat
+
+   PARSE_URL = "https://inkrssparse.vercel.app"
+   SECRET_PATH = "subscriptions"
+
+   # Telegram notification
+   TELEGRAPH_TOKEN = ""
+   TG_TOKEN = ""
+
+   TG_SENDID = "@channel_name"
+   TG_USERID = 12345678
+   ```
+
+   即可使用以下命令行来部署新的 Worker
+   ```
+   $ wrangler publish -e production
+   ```
+   
+   具体 wrangler.toml 多环境配置请参考：
+   - https://developers.cloudflare.com/workers/platform/environments
+   - https://developers.cloudflare.com/workers/cli-wrangler/configuration
+
 
 ## 额外附赠
 

@@ -1,0 +1,67 @@
+account_id = ""
+name = "inkrss-dev"
+type = "webpack"
+workers_dev = true
+
+# These fields specify that the Worker(s) will deploy to a custom domain
+# route = ""
+# zone_id = ""
+
+target_type = "webpack"
+webpack_config = "webpack.config.js"
+
+kv_namespaces = [
+  #   { binding = "KV", id = "", preview_id = "" }
+]
+
+[triggers]
+crons = ["*/1 * * * *"]
+
+[site]
+bucket = "./public"
+entry-point = "./"
+
+# Global variables can be used by the Worker scripts.
+# NOT inherited. Need to define in each environment.
+[vars]
+NOTIFIER = "" # bark, telegram or wechat
+PARSE_URL = "" 
+SECRET_PATH = "" 
+
+# Bark notification
+BARK_URL = ""
+
+# Telegram notification
+TELEGRAPH_TOKEN = ""
+TG_TOKEN = ""
+
+TG_SENDID = 123456789 # OR "@channel_name"
+TG_USERID = 123456789 
+
+# WeChat notification
+WECHAT_URL = ""
+
+# # Environments / Multiple Workers
+# # Ref: https://developers.cloudflare.com/workers/platform/environments
+
+# [env.production]
+# name = "inkrss"
+# # workers_dev = false
+# # route = ""
+# # zone_id = ""
+# kv_namespaces = [
+#   #   { binding = "KV", id = "" }
+# ]
+
+# [env.production.vars]
+# NOTIFIER = "telegram" # bark, telegram or wechat
+
+# PARSE_URL = ""
+# SECRET_PATH = ""
+
+# # Telegram notification
+# TELEGRAPH_TOKEN = ""
+# TG_TOKEN = ""
+
+# TG_SENDID = 123456789 # OR "@channel_name"
+# TG_USERID = 123456789
