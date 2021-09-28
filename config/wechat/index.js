@@ -1,3 +1,3 @@
 export default {
-  WECHAT_URL,
+  WECHAT_URL: self.WECHAT_URL || "",
 }

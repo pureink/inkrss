@@ -1,3 +1,3 @@
 export default {
-  BARK_URL,
+  BARK_URL: self.BARK_URL || "",
 }

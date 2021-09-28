@@ -188,6 +188,6 @@ router.get("*", async (req, e) => {
 addEventListener("fetch", (e) => {
   e.respondWith(router.handle(e.request, e).catch(errorHandler));
 });
-addEventListener("scheduled", async (event) => {
+addEventListener("scheduled", (event) => {
   event.waitUntil(handleScheduled(event));
 });

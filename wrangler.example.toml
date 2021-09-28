@@ -24,9 +24,22 @@ entry-point = "./"
 # Global variables can be used by the Worker scripts.
 # NOT inherited. Need to define in each environment.
 [vars]
-NOTIFIER = "" # bark, telegram or wechat
-PARSE_URL = "" 
-SECRET_PATH = "" 
+# <required> Notification mode, e.g. bark, telegram or wechat
+NOTIFIER = ""
+# <required> External function to parse XML feed
+PARSE_URL = ""
+# <optional> Secret path to management UI (default: "subs")
+SECRET_PATH = ""
+# # <optional> Minimal wait time until next try on error sub in minutes (defaults: 5)
+# SUB_ERROR_RETRY_INTERVAL_MIN = 10 
+# # <optional> Minimal wait time until next fetch sub in minutes (default: 0)
+# SUB_FETCH_INTERVAL_MIN = 0
+# # <optional> Maxium retries on error sub before marking as DEACTIVE (default: 15)
+# MAX_ERROR_COUNT = 15
+# # <optional> Maxium subs to process per worker run (default: 7)
+# MAX_SUBS_PER_SCHEDULE = 7
+# # <optional> Maxium items to notify (default: 10)
+# MAX_SUB_ITEMS = 10
 
 # Bark notification
 BARK_URL = ""
