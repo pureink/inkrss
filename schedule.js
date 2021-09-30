@@ -33,6 +33,8 @@ export async function handleScheduled(event) {
     .slice(0, MAX_SUBS_PER_SCHEDULE);
 
   for (const sub of filteredSubs) {
+    sub.lastUpdateTime = now;
+
     try {
       const resp = await fetch(sub.url);
       const text = await resp.text();
@@ -50,25 +52,37 @@ export async function handleScheduled(event) {
           }),
         });
         const data = await res.json();
-        const items = (data.items || []).slice(0, MAX_SUB_ITEMS)
-        for (const item of items) {
-          // Not recommended to use `pubDate` as stop sign, due to:
-          // - feeds don't sort items by `pubDate` values, e.g. https://rakuen.thec.me/PixivRss/weekly-10
-          // - feeds don't provide correct `pubDate`, e.g. same timestamp for batch generated items
-          // - feeds don't have `pubDate` field
-          // Here we assume the items are maintained in desired order from feed provider.
-          const { title, guid, link } = item;
-          console.log('item info: ', [title, guid, link])
+
+        let items = (data.items || []);
+        // Rankings feed, simply reverse the order of items
+        if (sub.rankings) {
+          items.reverse();
+        }
+        else {
+          items = items.sort((a, b) => {
+            // if `pubDate` exists
+            if (a.pubDate && b.pubDate) {
+              return new Date(a.pubDate) - new Date(b.pubDate)
+            }
+
+            return 0;
+          });
+          items = items.slice(Math.max(0, items.length - MAX_SUB_ITEMS));
+        }
+
+        // Filling _id in each item
+        items.forEach(item => {
           // Preferred `id` field:  `guid` > `link` > `title`, as same logic as in identify()
-          const itemId = guid || link || title;
-          // Stop if we meet previous stored update id
-          if (itemId && itemId == sub.id) {
-            break
-          }
+          item._id = item.guid || item.link || item.title;
+        });
+
+        items = items.slice(items.findIndex(item => item._id == sub.lastUpdateItem) + 1);
+        for (const item of items) {
+          console.log('sending item ', item);
           !self.DEBUG_DISABLE_NOTIFY && await reply(sub, item);
+          sub.lastUpdateItem = item._id;
         }
         sub.errorTimes = 0;
-        sub.lastUpdateTime = now;
         sub.id = id;
         console.log('updating sub states: ', sub)
         await KV.put("sub", JSON.stringify(allSubs));
@@ -77,7 +91,6 @@ export async function handleScheduled(event) {
     } catch (err) {
       console.error(err);
       sub.errorTimes += 1;
-      sub.lastUpdateTime = now;
       if (sub.errorTimes >= MAX_ERROR_COUNT) {
         console.log("error over max start notify");
         sub.active = false;

@@ -5,24 +5,46 @@ function removeCdata(str) {
     return str.replace(/(^\s*)|(\s*$)/g, "")
 }
 
-function identifyTitle(fullxml) {
-    const re = /<item[^>]*>[\s\S]*?<title[^>]*>(?<title>.*)<\/title>[\s\S]*?<\/item>/im
-    const match = fullxml.match(re)
-    return match && removeCdata(match.groups.title) || null
+function identifyTitle(xml) {
+    const re = /<title[^>]*>(?<title>.*)<\/title>/im;
+    const match = xml.match(re);
+    const title = match && match.groups && match.groups.title || '';
+    return title ? `title|${title}` : null;
 }
 
-function identifyGuid(fullxml) {
-    const re = /<item[^>]*>[\s\S]*?<guid[^>]*>(?<guid>.*)<\/guid>[\s\S]*?<\/item>/im
-    const match = fullxml.match(re)
-    return match && match.groups.guid || null
+function identifyGuid(xml) {
+    const re = /<(guid|id)[^>]*>(?<guid>.*)<\/(guid|id)>/im;
+    const match = xml.match(re);
+    const guid = match && match.groups && match.groups.guid || '';
+    return guid ? `guid|${guid}` : null;
 }
 
-function identifyLink(fullxml) {
-    const re = /<item[^>]*>[\s\S]*?<link[^>]*>(?<link>.*)<\/link>[\s\S]*?<\/item>/im
-    const match = fullxml.match(re)
-    return match && match.groups.link || null
+function identifyLink(xml) {
+    const re = /<(link|url)[^>]*>(?<link>.*)<\/(link|url)>/im;
+    const match = xml.match(re);
+    const link = match && match.groups && match.groups.link || '';
+    return link ? `link|${link}` : null;
+}
+
+function identifyItem(fullxml) {
+    const re = /<(item|entry)[^>]*>(?<item>[\s\S]*?)<\/(item|entry)>/im;
+    const match = fullxml.match(re);
+    return match && match.groups && match.groups.item || '';
+}
+
+function identifyLastBuildDate(fullxml) {
+    const re = /<lastBuildDate[^>]*>(?<lastBuildDate>[\s\S]*?)<\/lastBuildDate>/im;
+    const match = fullxml.match(re);
+    const lastBuildDate = match && match.groups && match.groups.lastBuildDate || '';
+    return lastBuildDate ? `lastBuildDate|${lastBuildDate}` : null;
 }
 
 export function identify(fullxml) {
-    return identifyGuid(fullxml) || identifyLink(fullxml) || identifyTitle(fullxml)
+    const lastBuildDate = identifyLastBuildDate(fullxml);
+    if (lastBuildDate) { return lastBuildDate; }
+
+    const firstItem = identifyItem(fullxml);
+    return firstItem
+        ? identifyGuid(firstItem) || identifyLink(firstItem) || identifyTitle(firstItem)
+        : null
 }
